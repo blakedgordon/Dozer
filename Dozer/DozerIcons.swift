@@ -15,7 +15,13 @@ public final class DozerIcons {
         dozerIcons.append(NormalStatusIcon())
 
         if !hideBothDozerIcons {
-            dozerIcons.append(NormalStatusIcon())
+            let rightIcon = NormalStatusIcon()
+            if rightIconAsArrow {
+                let image = NSImage(named: (hideStatusBarIconsAtLaunch) ? NSImage.goLeftTemplateName : NSImage.goRightTemplateName)
+                image?.size = NSSize(width: defaults[.iconSize], height: defaults[.iconSize])
+                rightIcon.statusIcon.image = image
+            }
+            dozerIcons.append(rightIcon)
         }
 
         if enableRemoveDozerIcon {
@@ -65,10 +71,29 @@ public final class DozerIcons {
         didSet {
             defaults[.noIconMode] = self.hideBothDozerIcons
             if hideBothDozerIcons {
+                let leftDozerIcon = get(dozerIcon: .normalLeft)
+                if rightIconAsArrow {
+                    leftDozerIcon.statusIcon.image = NSImage(named: NSImage.goRightTemplateName)
+                    leftDozerIcon.setSize()
+                }
                 let rightDozerIconXPos = get(dozerIcon: .normalRight).xPositionOnScreen
                 dozerIcons.removeAll(where: { $0.xPositionOnScreen == rightDozerIconXPos })
             } else {
                 dozerIcons.append(NormalStatusIcon())
+            }
+        }
+    }
+    
+    public var rightIconAsArrow: Bool = defaults[.rightIconArrow] {
+        didSet {
+            defaults[.rightIconArrow] = self.rightIconAsArrow
+            let rightIcon = get(dozerIcon: .normalRight)
+            if rightIconAsArrow {
+                let leftIcon = get(dozerIcon: .normalLeft)
+                rightIcon.statusIcon.image = (leftIcon.isShown) ? NSImage(named: NSImage.goRightTemplateName) : NSImage(named: NSImage.goLeftTemplateName)
+                rightIcon.setSize()
+            } else {
+                rightIcon.setIcon()
             }
         }
     }
@@ -84,6 +109,24 @@ public final class DozerIcons {
             showAll()
         }
     }
+    
+    public var iconFontSize: Int = defaults[.iconSize] {
+        didSet {
+            defaults[.iconSize] = self.iconFontSize
+            for icon in dozerIcons {
+                icon.setSize()
+            }
+        }
+    }
+    
+    public var buttonPadding: CGFloat = defaults[.buttonPadding] {
+        didSet {
+            defaults[.buttonPadding] = self.buttonPadding
+            for icon in dozerIcons {
+                icon.setSize()
+            }
+        }
+    }
 
     // MARK: Public methods
     public func hide() {
@@ -91,6 +134,10 @@ public final class DozerIcons {
         perform(action: .hide, statusIcon: .normalLeft)
         if defaults[.noIconMode] {
             perform(action: .hide, statusIcon: .normalRight)
+        } else if rightIconAsArrow {
+            let rightIcon = get(dozerIcon: .normalRight)
+            rightIcon.statusIcon.image = NSImage(named: NSImage.goLeftTemplateName)
+            rightIcon.setSize()
         }
         didHideStatusBarIcons()
     }
@@ -98,8 +145,16 @@ public final class DozerIcons {
     public func show() {
         perform(action: .hide, statusIcon: .remove)
         perform(action: .show, statusIcon: .normalLeft)
+        let leftIcon = get(dozerIcon: .normalLeft)
+        if leftIcon.statusIcon.image?.name() == NSImage(named: NSImage.goRightTemplateName)?.name() {
+            leftIcon.setIcon()
+        }
         if defaults[.noIconMode] {
             perform(action: .show, statusIcon: .normalRight)
+        } else if rightIconAsArrow {
+            let rightIcon = get(dozerIcon: .normalRight)
+            rightIcon.statusIcon.image = NSImage(named: NSImage.goRightTemplateName)
+            rightIcon.setSize()
         }
         didShowStatusBarIcons()
     }
