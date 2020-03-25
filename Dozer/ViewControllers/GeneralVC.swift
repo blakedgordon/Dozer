@@ -26,7 +26,10 @@ final class General: NSViewController, PreferencePane {
     @IBOutlet private var HideStatusBarIconsAfterDelayCheckbox: NSButton!
     @IBOutlet private var HideStatusBarIconsSecondsPopUpButton: NSPopUpButton!
     @IBOutlet private var HideBothDozerIconsCheckbox: NSButton!
+    @IBOutlet private var VisualizeRightAsArrowCheckbox: NSButton!
     @IBOutlet private var EnableRemoveDozerIconCheckbox: NSButton!
+    @IBOutlet private var FontSizePopUpButton: NSPopUpButton!
+    @IBOutlet private var ButtonPaddingPopUpButton: NSPopUpButton!
     @IBOutlet private var ToggleMenuItemsView: MASShortcutView!
 
     override func viewDidLoad() {
@@ -45,7 +48,10 @@ final class General: NSViewController, PreferencePane {
         HideStatusBarIconsAfterDelayCheckbox.isChecked = defaults[.hideAfterDelayEnabled]
         HideStatusBarIconsSecondsPopUpButton.selectItem(withTag: Int(defaults[.hideAfterDelay]))
         HideBothDozerIconsCheckbox.isChecked = defaults[.noIconMode]
+        VisualizeRightAsArrowCheckbox.isChecked = defaults[.rightIconArrow]
         EnableRemoveDozerIconCheckbox.isChecked = defaults[.removeDozerIconEnabled]
+        FontSizePopUpButton.selectItem(withTag: defaults[.iconSize])
+        ButtonPaddingPopUpButton.selectItem(withTag: Int(defaults[.buttonPadding]))
 
         ToggleMenuItemsView.associatedUserDefaultsKey = UserDefaultKeys.Shortcuts.ToggleMenuItems
         view.addSubview(ToggleMenuItemsView)
@@ -82,8 +88,25 @@ final class General: NSViewController, PreferencePane {
     
     @IBAction private func hideBothDozerIconsClicked(_ sender: NSButton) {
         DozerIcons.shared.hideBothDozerIcons = HideBothDozerIconsCheckbox.isChecked
+        if HideBothDozerIconsCheckbox.isChecked {
+            VisualizeRightAsArrowCheckbox.isChecked = false
+            DozerIcons.shared.rightIconAsArrow = VisualizeRightAsArrowCheckbox.isChecked
+        }
+        VisualizeRightAsArrowCheckbox.isEnabled = !HideBothDozerIconsCheckbox.isChecked
+    }
+    
+    @IBAction private func visualizeRightAsArrowClicked(_ sender: NSButton) {
+        DozerIcons.shared.rightIconAsArrow = VisualizeRightAsArrowCheckbox.isChecked
     }
 
+    @IBAction func fontSizeChanged(_ sender: NSPopUpButton) {
+        DozerIcons.shared.iconFontSize = FontSizePopUpButton.selectedTag()
+    }
+    
+    @IBAction func buttonPaddingChanged(_ sender: NSPopUpButton) {
+        DozerIcons.shared.buttonPadding = CGFloat(ButtonPaddingPopUpButton.selectedTag())
+    }
+    
     @IBAction private func enableRemoveDozerIconClicked(_ sender: NSButton) {
         DozerIcons.shared.enableRemoveDozerIcon = EnableRemoveDozerIconCheckbox.isChecked
     }
