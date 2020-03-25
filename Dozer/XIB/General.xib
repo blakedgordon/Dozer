@@ -17,6 +17,7 @@
                 <outlet property="HideStatusBarIconsAtLaunchCheckbox" destination="phN-BY-WEC" id="zff-cm-aik"/>
                 <outlet property="LaunchAtLoginCheckbox" destination="29f-2D-VsY" id="X2Z-FE-7IA"/>
                 <outlet property="ToggleMenuItemsView" destination="4Dt-wS-aZ8" id="PAm-fa-zGy"/>
+                <outlet property="VisualizeRightAsArrowCheckbox" destination="5OA-Bs-NZi" id="avE-Pg-Prf"/>
                 <outlet property="view" destination="c22-O7-iKe" id="buC-Sz-vlD"/>
             </connections>
         </customObject>
@@ -37,6 +38,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yjj-cw-XAs">
+
                     <rect key="frame" x="37" y="216" width="361" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="The delay resets when you interact with the status bar." id="vbw-Q7-ecG">
@@ -57,6 +59,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="phN-BY-WEC">
+
                     <rect key="frame" x="18" y="257" width="357" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="check" title="Hide status bar icons at launch" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="24v-K4-mhc">
@@ -87,6 +90,17 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
+                <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5OA-Bs-NZi">
+                    <rect key="frame" x="18" y="132" width="192" height="18"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Visualize right icon as arrow" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="YXu-zd-trg">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="visualizeRightAsArrowClicked:" target="-2" id="jQy-Zw-Ne6"/>
+                    </connections>
+                </button>
                 <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pDX-1f-4hl">
                     <rect key="frame" x="18" y="149" width="361" height="18"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -130,6 +144,12 @@
                         <action selector="automaticallyCheckForUpdatesClicked:" target="-2" id="TJa-HP-dNZ"/>
                     </connections>
                 </button>
+                <textField horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5VT-Ex-XU2">
+                    <rect key="frame" x="37" y="113" width="361" height="13"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="This will change the right dot to an arrow if both icons aren't hidden." id="gb6-WD-jBd">
+                        <font key="font" metaFont="system" size="10"/>
+                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                 <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CfO-pA-9W4">
                     <rect key="frame" x="18" y="85" width="76" height="25"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
