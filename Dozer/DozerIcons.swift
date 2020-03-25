@@ -17,7 +17,9 @@ public final class DozerIcons {
         if !hideBothDozerIcons {
             let rightIcon = NormalStatusIcon()
             if rightIconAsArrow {
-                rightIcon.statusIcon.image = NSImage(named: (hideStatusBarIconsAtLaunch) ? NSImage.goLeftTemplateName : NSImage.goRightTemplateName)
+                let image = NSImage(named: (hideStatusBarIconsAtLaunch) ? NSImage.goLeftTemplateName : NSImage.goRightTemplateName)
+                image?.size = NSSize(width: defaults[.iconSize], height: defaults[.iconSize])
+                rightIcon.statusIcon.image = image
             }
             dozerIcons.append(rightIcon)
         }
@@ -72,6 +74,7 @@ public final class DozerIcons {
                 let leftDozerIcon = get(dozerIcon: .normalLeft)
                 if rightIconAsArrow {
                     leftDozerIcon.statusIcon.image = NSImage(named: NSImage.goRightTemplateName)
+                    leftDozerIcon.setSize()
                 }
                 let rightDozerIconXPos = get(dozerIcon: .normalRight).xPositionOnScreen
                 dozerIcons.removeAll(where: { $0.xPositionOnScreen == rightDozerIconXPos })
@@ -88,6 +91,7 @@ public final class DozerIcons {
             if rightIconAsArrow {
                 let leftIcon = get(dozerIcon: .normalLeft)
                 rightIcon.statusIcon.image = (leftIcon.isShown) ? NSImage(named: NSImage.goRightTemplateName) : NSImage(named: NSImage.goLeftTemplateName)
+                rightIcon.setSize()
             } else {
                 rightIcon.setIcon()
             }
@@ -133,6 +137,7 @@ public final class DozerIcons {
         } else if rightIconAsArrow {
             let rightIcon = get(dozerIcon: .normalRight)
             rightIcon.statusIcon.image = NSImage(named: NSImage.goLeftTemplateName)
+            rightIcon.setSize()
         }
         didHideStatusBarIcons()
     }
@@ -149,6 +154,7 @@ public final class DozerIcons {
         } else if rightIconAsArrow {
             let rightIcon = get(dozerIcon: .normalRight)
             rightIcon.statusIcon.image = NSImage(named: NSImage.goRightTemplateName)
+            rightIcon.setSize()
         }
         didShowStatusBarIcons()
     }
