@@ -50,6 +50,9 @@ final class General: NSViewController, PreferencePane {
         HideBothDozerIconsCheckbox.isChecked = defaults[.noIconMode]
         VisualizeRightAsArrowCheckbox.isChecked = defaults[.rightIconArrow]
         EnableRemoveDozerIconCheckbox.isChecked = defaults[.removeDozerIconEnabled]
+      
+        configureEnabledRightIconAsArrowCheckbox()
+      
         FontSizePopUpButton.selectItem(withTag: defaults[.iconSize])
         ButtonPaddingPopUpButton.selectItem(withTag: Int(defaults[.buttonPadding]))
 
@@ -88,11 +91,7 @@ final class General: NSViewController, PreferencePane {
     
     @IBAction private func hideBothDozerIconsClicked(_ sender: NSButton) {
         DozerIcons.shared.hideBothDozerIcons = HideBothDozerIconsCheckbox.isChecked
-        if HideBothDozerIconsCheckbox.isChecked {
-            VisualizeRightAsArrowCheckbox.isChecked = false
-            DozerIcons.shared.rightIconAsArrow = VisualizeRightAsArrowCheckbox.isChecked
-        }
-        VisualizeRightAsArrowCheckbox.isEnabled = !HideBothDozerIconsCheckbox.isChecked
+        configureEnabledRightIconAsArrowCheckbox()
     }
     
     @IBAction private func visualizeRightAsArrowClicked(_ sender: NSButton) {
@@ -109,5 +108,13 @@ final class General: NSViewController, PreferencePane {
     
     @IBAction private func enableRemoveDozerIconClicked(_ sender: NSButton) {
         DozerIcons.shared.enableRemoveDozerIcon = EnableRemoveDozerIconCheckbox.isChecked
+    }
+    
+    private func configureEnabledRightIconAsArrowCheckbox() {
+        if HideBothDozerIconsCheckbox.isChecked {
+            VisualizeRightAsArrowCheckbox.isChecked = false
+            DozerIcons.shared.rightIconAsArrow = VisualizeRightAsArrowCheckbox.isChecked
+        }
+        VisualizeRightAsArrowCheckbox.isEnabled = !HideBothDozerIconsCheckbox.isChecked
     }
 }
